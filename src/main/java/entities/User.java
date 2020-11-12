@@ -32,6 +32,18 @@ public class User implements Serializable {
   @ManyToMany (cascade = CascadeType.PERSIST)
   private List<Role> roleList = new ArrayList<>();
 
+  @ManyToMany (cascade = CascadeType.PERSIST)
+  private List<Poem> poemList = new ArrayList<>();
+
+
+  public List<Poem> getPoemsList() {
+    return poemList;
+  }
+
+  public void setPoemsList(List<Poem> poemList) {
+    this.poemList = poemList;
+  }
+
   public List<String> getRolesAsStrings() {
     if (roleList.isEmpty()) {
       return null;
