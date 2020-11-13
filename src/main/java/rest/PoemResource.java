@@ -8,6 +8,7 @@ import facades.PoemFacade;
 import fetchers.PoemFetcher;
 import utils.EMF_Creator;
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -25,6 +26,7 @@ public class PoemResource {
             
 
     @GET
+    @RolesAllowed({"admin", "user"})
     @Produces({MediaType.APPLICATION_JSON})
     public String getPoem() throws IOException {
         PoemDTO newPoem = PoemFetcher.fetchPoem(GSON);
@@ -32,6 +34,7 @@ public class PoemResource {
     }
 
     @POST
+    @RolesAllowed({"admin", "user"})
     @Path("{username}")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
@@ -44,6 +47,7 @@ public class PoemResource {
         return GSON.toJson(poemDTO);
     }
     @GET
+    @RolesAllowed({"admin", "user"})
     @Path("{username}")
     @Produces({MediaType.APPLICATION_JSON})
     public String getPoemsByUser(@PathParam("username") String username){
@@ -54,6 +58,7 @@ public class PoemResource {
     }
 
     @DELETE
+    @RolesAllowed({"admin", "user"})
     @Path("{username}")
     @Produces({MediaType.APPLICATION_JSON})
     public String deletePoem(@PathParam("username") String username, String poem){
@@ -66,12 +71,12 @@ public class PoemResource {
     }
 
     @GET
+    @RolesAllowed({"admin", "user"})
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllPoems(){
 
         List<PoemDTO> poemDTOList = poemFacade.getAllPoems();
-
         return GSON.toJson(poemDTOList);
     }
 
