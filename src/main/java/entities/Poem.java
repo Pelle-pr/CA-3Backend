@@ -35,6 +35,10 @@ public class Poem implements Serializable {
 
     public Poem() {
     }
+    public Poem (PoemDTO poemDTO){
+        this.content = poemDTO.getContent();
+        this.title = poemDTO.getTitle();
+    }
 
 
     public String getContent() {

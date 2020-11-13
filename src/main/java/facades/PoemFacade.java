@@ -68,19 +68,21 @@ public class PoemFacade {
         return  poemDTOList;
     }
 
-    public PoemDTO deletePoem (PoemDTO poemDTO, String username) {
+    public void deletePoem (String title, String username) {
         EntityManager em = emf.createEntityManager();
-
+        System.out.println(title);
         User user = em.find(User.class, username);
-        Poem poem = em.find(Poem.class, poemDTO.getTitle());
+        Poem poem = em.find(Poem.class, title);
+
         user.getPoemsList().remove(poem);
+
 
         try {
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
 
-            return new PoemDTO(poem);
+
         }finally {
             em.close();
         }
@@ -100,6 +102,8 @@ public class PoemFacade {
         }
         return  poemDTOList;
     }
+
+
 
 
 }

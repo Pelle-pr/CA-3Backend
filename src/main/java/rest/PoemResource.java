@@ -2,6 +2,8 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dto.PoemDTO;
 import entities.Poem;
 import facades.PoemFacade;
@@ -9,6 +11,7 @@ import fetchers.PoemFetcher;
 import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
+import javax.json.Json;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -61,13 +64,12 @@ public class PoemResource {
     @RolesAllowed({"admin", "user"})
     @Path("{username}")
     @Produces({MediaType.APPLICATION_JSON})
-    public String deletePoem(@PathParam("username") String username, String poem){
+    public String deletePoem(@PathParam("username") String username, String title){
+        JsonObject json = JsonParser.parseString(title).getAsJsonObject();
+        String titleToRemove = json.get("title").getAsString();
+        poemFacade.deletePoem(titleToRemove,username);
 
-        PoemDTO poemDTO = GSON.fromJson(poem, PoemDTO.class);
-
-         poemFacade.deletePoem(poemDTO,username);
-
-        return GSON.toJson(poemDTO);
+        return GSON.toJson(titleToRemove);
     }
 
     @GET
